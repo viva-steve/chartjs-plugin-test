@@ -1,4 +1,4 @@
-import WeightChart from "components/healthMax/WeightChart";
+import MyChart from "components/healthMax/MyChart";
 import healthMaxData, { WeightData } from "mock";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -10,16 +10,7 @@ function App() {
     setWeightDate(healthMaxData.weight);
   }, []);
 
-  return (
-    <>
-      {weightData && (
-        <div>
-          <div>체중</div>
-          <WeightChart data={weightData} />
-        </div>
-      )}
-    </>
-  );
+  return <>{weightData && <MyChart data={weightData} title="체중" />}</>;
 }
 
 export default App;

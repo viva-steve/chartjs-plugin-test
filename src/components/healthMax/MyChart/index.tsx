@@ -8,20 +8,22 @@ import { getChartFormatData } from "utils";
 
 type PropsType = {
   data: WeightData[][];
+  title: string;
 };
 
 Chart.register(ChartDataLabels);
 
-const WeightChart = ({ data }: PropsType) => {
+const MyChart = ({ data, title }: PropsType) => {
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
 
   const handleClickLeftButton = () => {
-    if (currentPageIndex === 0) return;
+    if (currentPageIndex === 0) return console.log("과거 데이터가 없습니다.");
     setCurrentPageIndex((prev) => prev - 1);
   };
 
   const handleClickRightButton = () => {
-    if (data.length === 1 || currentPageIndex === data.length - 1) return;
+    if (data.length === 1 || currentPageIndex === data.length - 1)
+      return console.log("이후 데이터가 없습니다.");
     setCurrentPageIndex((prev) => prev + 1);
   };
 
@@ -35,6 +37,7 @@ const WeightChart = ({ data }: PropsType) => {
 
   return (
     <div>
+      <div>{title}</div>
       <div>
         <button onClick={handleClickLeftButton}>left</button>
         <button onClick={handleClickRightButton}>right</button>
@@ -45,4 +48,4 @@ const WeightChart = ({ data }: PropsType) => {
   );
 };
 
-export default WeightChart;
+export default MyChart;

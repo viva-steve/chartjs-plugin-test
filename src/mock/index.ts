@@ -8,7 +8,7 @@ const data: HealthMaxData = {
     [
       {
         date: "2019-01-12T13:35:53Z",
-        weight: 59.2,
+        weight: 59.2, // 이부분이 키이름이 value이면 타입하나로 돌려쓸수있어서 바뀌면 좋겠음
       },
       {
         date: "2019-02-16T12:15:08Z",
