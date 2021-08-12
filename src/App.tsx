@@ -5,9 +5,11 @@ import { useEffect } from "react";
 
 function App() {
   const [weightData, setWeightDate] = useState<WeightData[][] | null>(null);
+
   useEffect(() => {
     setWeightDate(healthMaxData.weight);
   }, []);
+
   return (
     <>
       {weightData && (

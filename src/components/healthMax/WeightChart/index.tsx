@@ -1,11 +1,10 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Chart } from "chart.js";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+
 import { WeightData } from "mock";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getChartDataFormat } from "utils/getChartData";
+import { getChartFormatData } from "utils";
 
 type PropsType = {
   data: WeightData[][];
@@ -13,86 +12,35 @@ type PropsType = {
 
 Chart.register(ChartDataLabels);
 
-// const data = {
-//   labels: [
-//     "1/30",
-//     "2/22",
-//     "3/3",
-//     "5/4",
-//     "5/30",
-//     "6/2",
-//     "6/13",
-//     "7/12",
-//     "8/10",
-//     "9/11",
-//     "9/20",
-//     "12/25",
-//   ],
-//   datasets: [
-//     {
-//       label: "테스트트트",
-//       data: [12, 19, 3, 5, 2, 3, 10, 20, null, null, null, null],
-//       fill: false,
-//       fontColor: "red",
-//       backgroundColor: "rgb(255, 99, 132)",
-//       borderColor: "rgba(255, 99, 132, 0.2)",
-//     },
-//   ],
-// };
-
-// const options = {
-//   scales: {
-//     y: {
-//       beginAtZero: false,
-//       // display: false,
-//     },
-//   },
-//   plugins: {
-//     datalabels: {
-//       color: ["red", "blue", "green", "black", "yellow", "pink"],
-//       font: {
-//         size: "30",
-//       },
-//       align: "end",
-//       anchor: "center",
-//     },
-//   },
-// };
-
 const WeightChart = ({ data }: PropsType) => {
-  //   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
-  // const [curPageData, setCurPageData] = useState<WeightData[] | null>(null);
 
-  const handleClickLeft = () => {
+  const handleClickLeftButton = () => {
     if (currentPageIndex === 0) return;
     setCurrentPageIndex((prev) => prev - 1);
   };
 
-  const handleClickRight = () => {
+  const handleClickRightButton = () => {
     if (data.length === 1 || currentPageIndex === data.length - 1) return;
     setCurrentPageIndex((prev) => prev + 1);
   };
 
   useEffect(() => {
     if (data.length === 0) return;
-    // setTotalPageCount(data.length);
-    setCurrentPageIndex(data.length - 1);
-    // setCurPageData(data[currentPageIndex]);
+    setCurrentPageIndex(data.length - 1); // 12개의 차트 데이터로 이루어진 2차원 배열에서 제일 마지막 인덱스의 배열을 데이터를 현재 데이터로 함
   }, [data]);
 
-  const currentData = data[currentPageIndex];
+  const currentData = data[currentPageIndex]; // 데이터 자체가 2차원 배열이기 때문에 currentPageIndex를 넣어 현재 페이지에 보여줄 데이터를 얻음
+  const chartData = getChartFormatData(currentData); // 현재페이지의 데이터를 차트 라이브러리에 넣기 위해 가공해주는 함수인 getChartDataFormat 실행
 
-  console.log("data", data, "currentData", currentData);
-  const result = getChartDataFormat(currentData);
-  console.log("result", result);
   return (
     <div>
       <div>
-        <button onClick={handleClickLeft}>left</button>
-        <button onClick={handleClickRight}>right</button>
+        <button onClick={handleClickLeftButton}>left</button>
+        <button onClick={handleClickRightButton}>right</button>
       </div>
-      <Line data={result} /* options={options}  */ />
+      <Line {...chartData} />
+      <div>{currentData[0]?.date.split("-")[0]}</div>
     </div>
   );
 };
